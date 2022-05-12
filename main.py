@@ -119,7 +119,7 @@ if not hide:
         os.rename(hidden_dir, new_name)
 
 
-"""
+""" # TODO put into functions? too lazy
 # random extras: removal of thumbs.db or desktop.ini files in directories (doesn't remove folders - but could)
 for (root, dirs, files) in os.walk(basepath, topdown=True):
     for file in files:
@@ -140,4 +140,20 @@ for (root, dirs, files) in os.walk(basepath, topdown=True):
             print('--------------------------------')
             path = os.path.join(root, file)
             os.remove(path)
+            
+# random extras: remove all empty directories
+# from: https://stackoverflow.com/questions/23488924/how-to-delete-recursively-empty-folders-in-python3
+def remove_empty_dir(path):
+    try:
+        os.rmdir(path)
+        print(f'Removed Directory: {path}')
+    except OSError:
+        pass
+
+def remove_empty_dirs(path):
+    for root, dirnames, filenames in os.walk(path, topdown=False):
+        for dirname in dirnames:
+            remove_empty_dir(os.path.realpath(os.path.join(root, dirname)))
+            
+remove_empty_dirs(basepath)
 """
